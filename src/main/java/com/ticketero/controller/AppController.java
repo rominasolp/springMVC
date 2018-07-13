@@ -1,5 +1,7 @@
 package com.ticketero.controller;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -8,50 +10,43 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.ticketero.exception.EventoNotFoundException;
+import com.ticketero.exception.TipoDeEventoNotFoundException;
 import com.ticketero.model.Evento;
-import com.ticketero.service.EventoService;
-import com.ticketero.service.TipoDeEventoService;
+import com.ticketero.service.IEventoService;
+import com.ticketero.service.ITipoDeEventoService;
+
+//import com.ticketero.model.Evento;
+//import com.ticketero.service.EventoService;
+//import com.ticketero.service.TipoDeEventoService;
 
 @Controller
+@SessionAttributes("loginBean")
 @RequestMapping("/")
 public class AppController {
 
-	private EventoService srv;
-	private TipoDeEventoService srvTipo;
+	@Resource
+	private IEventoService EventoService;
 	
-	@Autowired(required=true)
-	@Qualifier(value="eventoService")
-	public void setEventoService(EventoService ps){
-		this.srv = ps;
-	}
+	@Resource
+	private ITipoDeEventoService TipoDeEventoService;
 	
-	@Autowired(required=true)
-	@Qualifier(value="tipoDeEventoService")
-	public void setTipoDeEventoService(TipoDeEventoService ps){
-		this.srvTipo = ps;
-	}
-	
-	@RequestMapping(value = { "/"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
 	public String homePage(ModelMap model) {
-		model.addAttribute("listaDeEventos", this.srv.listEventos());
-		
+		model.addAttribute("listaDeEventos", this.EventoService.listEventos());
 		return "home";
 	}
 	
-	@RequestMapping(value = { "/login"}, method = RequestMethod.GET)
-	public String loginPage(ModelMap model) {
-		return "login";
-	}
-	
 	@RequestMapping(value = { "/evento/{id}"}, method = RequestMethod.GET)
-	public String viewEvento(@PathVariable("id") int id, Model model){
+	public String viewEvento(@PathVariable("id") int id, Model model) throws EventoNotFoundException, TipoDeEventoNotFoundException{
         
-        Evento evnt = this.srv.getEventoById(id);
+        Evento evnt = this.EventoService.getEventoById(id);
         
         model.addAttribute("evento", evnt);
         
-        model.addAttribute("tipoDeEvento", this.srvTipo.getTipoDeEventoById(evnt.getIdTipoDeEvento()));
+        model.addAttribute("tipoDeEvento", this.TipoDeEventoService.getTipoDeEventoById(evnt.getIdTipoDeEvento()));
         
         return "eventoView";
     }

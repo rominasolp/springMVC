@@ -14,21 +14,21 @@ public class Deporte {
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
-	private int evento_id;
+	private Integer evento_id;
 	private String deporte;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	public int getEvento_id() {
+	public Integer getEvento_id() {
 		return evento_id;
 	}
-	public void setEvento_id(int evento_id) {
+	public void setEvento_id(Integer evento_id) {
 		this.evento_id = evento_id;
 	}
 	public String getDeporte() {
@@ -38,6 +38,35 @@ public class Deporte {
 		this.deporte = deporte;
 	}
 	
+	public static Builder getBuilder() {
+        return new Builder();
+    }
+	
+	public static class Builder {
 
+        private Deporte built;
+
+        public Builder() {
+        	built = new Deporte();
+        }
+        
+        public Builder(String nom) {
+            built = new Deporte();
+            built.deporte = nom;
+        }
+
+        public Deporte build() {
+            return built;
+        }
+
+        public Builder nombre(String nom) {
+            built.deporte = nom;
+            return this;
+        }
+    }
+	
+	 public void update(String nom) {
+        this.deporte= nom;
+	 }
 
 }

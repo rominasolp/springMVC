@@ -61,11 +61,24 @@
 			<td>${cliente.nombre}</td>
 			<td>${cliente.apellido}</td>
 			<td colspan="2"><a href="<c:url value='/admin/cliente/edit/${cliente.id}' />" >Editar</a>
-				<a href="<c:url value='/admin/cliente/remove/${cliente.id}' />" >Borrar</a>
+				<a class="btnEliminar" href="<c:url value='/admin/cliente/remove/${cliente.id}' />" >Borrar</a>
 			</td>
 			
 		</tr>
 	</c:forEach>
 	</table>
 </c:if>
+
+<script>
+	$(document).ready(function() {
+				 
+		$('.btnEliminar').on('click', function(event){
+			if (!confirm("¿Desea confirmar la eliminación del evento?")) {
+				event.preventDefault();
+			}
+		});
+		
+	});
+	
+</script>
 

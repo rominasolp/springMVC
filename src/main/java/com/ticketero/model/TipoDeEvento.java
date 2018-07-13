@@ -33,4 +33,35 @@ public class TipoDeEvento {
 		this.nombre = nombre;
 	}
 	
+	public static Builder getBuilder() {
+        return new Builder();
+    }
+	
+	public static class Builder {
+
+        private TipoDeEvento built;
+
+        public Builder() {
+        	built = new TipoDeEvento();
+        }
+        
+        public Builder(String nom) {
+            built = new TipoDeEvento();
+            built.nombre = nom;
+        }
+
+        public TipoDeEvento build() {
+            return built;
+        }
+
+        public Builder nombre(String nom) {
+            built.nombre = nom;
+            return this;
+        }
+    }
+	
+	 public void update(String nom) {
+        this.nombre= nom;
+	 }
+	 
 }

@@ -1,33 +1,27 @@
 package com.ticketero.model;
 
-import java.sql.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="evento")
 public class Evento {
 
 	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	//@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	
 	private String nombre_evento;
 	private Double precio;
 	private String descripcion;
-	private int stock;
+	private Integer stock;
 	private Date fecha_desde;
 	private Date fecha_hasta;
 	private String direccion;
 	
-	
-	private int tipo_de_evento;
+	//@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	private Integer tipo_de_evento;
 
 	public String getNombreEvento() {
 		return nombre_evento;
@@ -53,11 +47,11 @@ public class Evento {
 		this.descripcion = descripcion;
 	}
 
-	public int getStock() {
+	public Integer getStock() {
 		return stock;
 	}
 
-	public void setStock(int stock) {
+	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
 
@@ -85,20 +79,65 @@ public class Evento {
 		this.direccion = direccion;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getIdTipoDeEvento() {
+	public Integer getIdTipoDeEvento() {
 		return tipo_de_evento;
 	}
 
-	public void setIdTipoDeEvento(int idTipoDeEvento) {
+	public void setIdTipoDeEvento(Integer idTipoDeEvento) {
 		this.tipo_de_evento = idTipoDeEvento;
 	}
 
+	
+	
+	public static Builder getBuilder() {
+        return new Builder();
+    }
+	
+	public static class Builder {
+
+        private Evento built;
+
+        public Builder() {
+        	built = new Evento();
+        }
+        
+        public Builder(String nom) {
+            built = new Evento();
+            built.nombre_evento = nom;
+        }
+
+        public Evento build() {
+            return built;
+        }
+
+        public Builder nombre(String nom) {
+            built.nombre_evento = nom;
+            return this;
+        }
+    }
+	
+	 public void update(String nom, 
+			 String desc, String dir, 
+			 Date fdesde, Date fhasta,
+			 double precio,	Integer stk,
+			 Integer eventoId) {
+        this.nombre_evento= nom;
+        this.descripcion = desc;
+        this.direccion = dir;
+        this.fecha_desde = fdesde;
+        this.fecha_hasta = fhasta;
+        this.precio = precio;
+        this.stock = stk;
+        this.tipo_de_evento = eventoId;
+        
+	 }	
+	 
 }

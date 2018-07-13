@@ -4,7 +4,7 @@
 <%@ page session="false" %>
 
 <c:url var="addAction" value="/admin/evento/add" ></c:url>
-	
+
 <form:form action="${addAction}" commandName="evento">
 
 	<c:if test="${!empty evento.nombreEvento}">
@@ -15,6 +15,11 @@
 			</form:label>
     		<form:input path="id" readonly="true" size="8"  disabled="true" />
 			<form:hidden path="id" />
+			
+			<label id="txtpropiedad" data-propiedad="${propiedad}">
+				<spring:message text="(${evento.idTipoDeEvento})"/>
+			</label>
+			
   		</div>
 	</c:if>
 
@@ -103,6 +108,7 @@
 		<form:input path="stock" class="form-control" />
 	</div>
 
+<%--
 	<div class="form-group">
 		<form:label path="fechaDesde">
 			<spring:message text="Fecha de inicio"/>
@@ -118,7 +124,7 @@
 		
 		<form:input type="date" path="fechaHasta" class="form-control" />
 	</div>
-	
+	 --%>
 	<div class="form-group">
 		<form:label path="direccion">
 			<spring:message text="Dirección"/>
@@ -163,7 +169,7 @@
 			<td>${evento.fechaHasta}</td>
 			<td>${evento.direccion}</td>
 			<td colspan="2"><a href="<c:url value='/admin/evento/edit/${evento.id}' />" >Editar</a>
-				<a href="<c:url value='/admin/evento/remove/${evento.id}' />" >Borrar</a>
+				<a class="btnEliminar" href="<c:url value='/admin/evento/remove/${evento.id}' />" >Borrar</a>
 			</td>
 			
 		</tr>
@@ -178,9 +184,7 @@
 	$(document).ready(function() {
 		$(".adicionales").hide();
 		
-		$("#cmbTipo option[value=<spring:message text="${evento.idTipoDeEvento}"/>]").attr('selected','selected');
-
-		$( "#cmbTipo" ).change(function() {
+		$( "#cmbTipo" ).on('change', function() {
 			console.log($( "#cmbTipo option:checked" ).text());
 			$(".adicionales").hide();
 			
@@ -200,7 +204,45 @@
 		    	default:		        
 			}				
 		});
-		
+	
+		 
+		$('.btnEliminar').on('click', function(event){
+			if (!confirm("¿Desea confirmar la eliminación del evento?")) {
+				event.preventDefault();
+			}
+		});
+
+		$("#cmbTipo option[value=<spring:message text="${evento.idTipoDeEvento}"/>]").attr('selected','selected');
+
+		if ($("#id").val() ){
+			var val = $("#txtpropiedad").attr("data-propiedad");			
+			$(".adicionales").hide();
+			
+			switch($("#cmbTipo option:checked" ).text().toLowerCase()) {
+		    	case "teatro":
+		    		$(".cmbTeatro option[value=" + val + "]").attr('selected','selected');
+		    		$(".groupteatro").show();		    		
+		        break;
+		        
+		    	case "música":
+		    		$(".cmbEstilo option[value=" + val + "]").attr('selected','selected');
+		    		$(".groupmusica").show();		    		
+		        break;
+		        
+		    	case "película":
+		    		$(".cmbGenero option[value=" + val + "]").attr('selected','selected');
+		    		$(".grouppelicula").show();
+			        break;
+			        
+		    	case "deporte":
+		    		$(".cmbTipoDeporte option[value=" + val + "]").attr('selected','selected');
+		    		$(".groupdeporte").show();
+			        break;
+			        
+		    	default:	
+		    		break;	        
+			}
+		}
 	});
 	
 </script>

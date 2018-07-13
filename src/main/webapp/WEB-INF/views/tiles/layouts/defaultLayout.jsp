@@ -12,6 +12,14 @@
 	<title><tiles:getAsString name="title" /></title>
 	<link href="<c:url value='/static/css/bootstrap.css' />"  rel="stylesheet">
 	<link href="<c:url value='/static/css/app.css' />" rel="stylesheet">
+	
+	<!-- jQuery -->
+    <script src="<c:url value='/static/js/jquery.js' />"></script>
+    
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="<c:url value='/static/js/bootstrap.min.js' />"></script>
+    
 </head>
  
 <body>
@@ -79,13 +87,6 @@
     <!-- /.container -->
 
 	<tiles:insertAttribute name="footer" />
-  
-    <!-- jQuery -->
-    <script src="<c:url value='/static/js/jquery.js' />"></script>
-    
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<c:url value='/static/js/bootstrap.min.js' />"></script>
     
     <script>
     

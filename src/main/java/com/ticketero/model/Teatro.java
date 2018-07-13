@@ -14,27 +14,59 @@ public class Teatro {
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
-	private int evento_id;
+	private Integer evento_id;
 	private String genero;
 	
-	public int getEvento_id() {
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public Integer getEvento_id() {
 		return evento_id;
 	}
-	public void setEvento_id(int evento_id) {
+	public void setEvento_id(Integer evento_id) {
 		this.evento_id = evento_id;
 	}
 	public String getGenero() {
 		return genero;
 	}
-	public void setGenero(String gen) {
-		this.genero = gen;
+	public void setGenero(String genero) {
+		this.genero = genero;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	
+	public static Builder getBuilder() {
+        return new Builder();
+    }
+	
+	public static class Builder {
+
+        private Teatro built;
+
+        public Builder() {
+        	built = new Teatro();
+        }
+        
+        public Builder(String nom) {
+            built = new Teatro();
+            built.genero = nom;
+        }
+
+        public Teatro build() {
+            return built;
+        }
+
+        public Builder nombre(String nom) {
+            built.genero = nom;
+            return this;
+        }
+    }
+	
+	 public void update(String nom) {
+        this.genero= nom;
+	 }
+
 }
