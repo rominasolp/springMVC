@@ -66,7 +66,9 @@ public class ClienteController {
     private ClienteDto createDTO(Cliente model) {
         ClienteDto dto = new ClienteDto();
 
-       	dto.setId(model.getId());        
+        if (model.getId() != null)
+        	dto.setId(model.getId());
+        
         dto.setNombre(model.getNombre());
         dto.setApellido(model.getApellido());
         dto.setEmail(model.getEmail());
